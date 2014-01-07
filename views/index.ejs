@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title><%= title %></title>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel='stylesheet' href='stylesheets/style.css' />
 		<link rel='stylesheet' href='http://www.standishsalongoods.com/assets/templates/standish/style/main.css' />
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
 	</head>
@@ -68,7 +68,7 @@
 		<script>
 			// Hellobar Content
 			// $.getJSON( "//hyprtxt.com/standish/data.json", function( data ) {
-			$.getJSON( "current.json", function( data ) {
+			$.getJSON( "/hellobar/current.json", function( data ) {
 				console.log( data.content );
 				$('.hbar_content').html( data.content );
 			});
