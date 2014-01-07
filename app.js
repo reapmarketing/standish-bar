@@ -8,6 +8,7 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var fs = require('fs');
 
 var app = express();
 
@@ -26,12 +27,60 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+	app.use(express.errorHandler());
 }
+// create bars.json file if it does not exist
+fs.exists('bars.json', function (exists) {
+	if( !exists ) {
+		fs.writeFile( 'bars.json', JSON.stringify( {} , null, 4 ), function( err ) {
+			if(err) { console.log(err); } else { console.log("JSON file initialized"); }
+		});
+	}
+});
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+// app.get('/users', user.list);
+
+app.get('/current.json', function(req, res) {
+	res.sendfile('current.json');
+});
+
+// Redirect request to assets folder to standish live site.
+app.get(/\/assets.*/, function(req, res) {
+	res.redirect( 'http://standishsalongoods.com' + req.originalUrl );
+});
+
+// Write selected bar into live JSON file 'current.json'
+app.post('/use', function(req, res) {
+	var output = {};
+	data = JSON.parse( fs.readFileSync('bars.json').toString() );
+	output.content = data[req.body.bar];
+	fs.writeFile( 'current.json', JSON.stringify( output , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+	});
+	res.redirect(303, '/');
+});
+
+// Remove selected bar from bars.json
+app.post('/remove', function(req, res) {
+	var data = JSON.parse( fs.readFileSync('bars.json').toString() );
+	delete data[req.body.bar];
+	fs.writeFile( 'bars.json', JSON.stringify( data , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+	});
+	res.redirect(303, '/');
+});
+
+// Write form content into bars.json
+app.post('/', function(req, res) {
+	data = JSON.parse( fs.readFileSync('bars.json').toString() );
+	data[req.body.name] = req.body.markup;
+	fs.writeFile( 'bars.json', JSON.stringify( data , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+	});
+	res.redirect(303, '/');
+});
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+	console.log('Express server listening on port ' + app.get('port'));
 });

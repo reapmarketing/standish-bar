@@ -1,11 +1,86 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+	<head>
+		<title><%= title %></title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel='stylesheet' href='http://www.standishsalongoods.com/assets/templates/standish/style/main.css' />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
+	</head>
+	<body>
+
+		<div class="hello">
+			<div class="container_12">
+				<div class="grid_8 hbar_content"></div>
+				<div class="grid_3">
+					<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container_12">
+			<div class="grid_12">
+
+				<h1><%= title %></h1>
+				<p>Welcome to <%= title %></p>
+				<form action="/" method="post">
+					Title: <input type="text" name="name" id="name" /> (1 word, no spaces please)<br />
+					<textarea name="markup" id="markup"></textarea><br />
+					<input type="submit" />
+				</form>
+
+				<!-- <textarea><%- JSON.stringify( bars ) %></textarea> -->
+
+				<% for(var i=0; i<Object.keys( bars ).length; i++) {%>
+					<h4><%= Object.keys(bars)[i] %></h4>
+					<div class="buttons">
+						<button class="edit" data-key="<%= Object.keys(bars)[i] %>">Edit</button>
+						<form action="/remove" method="post" onsubmit="return confirm('Are you sure?');">
+							<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
+							<button class="remove">Remove</button>
+						</form>
+						<form action="/use" method="post">
+							<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
+							<button class="use">Use</button>
+						</form>
+					</div>
+
+					<div class="clearboth"></div>
+
+					<div class="hello_preview <%= Object.keys(bars)[i] %>">
+						<div class="container_12">
+							<div class="grid_8">
+								<%- bars[Object.keys(bars)[i]] %>
+							</div>
+							<div class="grid_3">
+								<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
+							</div>
+						</div>
+					</div>
+				<% } %>
+
+				<div class="clearboth"></div>
+				<br /><br /><br /><br />
+			</div>
+		</div>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+			// Hellobar Content
+			// $.getJSON( "//hyprtxt.com/standish/data.json", function( data ) {
+			$.getJSON( "current.json", function( data ) {
+				console.log( data.content );
+				$('.hbar_content').html( data.content );
+			});
+			// Hellobar Animation
+			$('body').delay(200).animate({'margin-top': '60px'});
+			$('.hello').delay(200).animate({'top': '0'});
+			$('.edit').on('click', function( e ){
+				var key = $( e.target ).data('key');
+				$( '#name' ).val( key )
+				$( '#markup' ).text( $( '.' + key ).find('.grid_8').html().trim() );
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+			});
+		</script>
+	</body>
 </html>
