@@ -73,7 +73,7 @@
 				$('.hbar_content').html( data.content );
 			});
 			// Hellobar Animation
-			$('body').delay(200).animate({'margin-top': '60px'});
+			$('body').css({'margin-top': '60px'});
 			$('.hello').delay(200).animate({'top': '0'});
 			$('.edit').on('click', function( e ){
 				var key = $( e.target ).data('key');
