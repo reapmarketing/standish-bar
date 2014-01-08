@@ -16,6 +16,7 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.basicAuth('standish', 'pa55word'));
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -55,6 +56,7 @@ app.post('/use', function(req, res) {
 	var output = {};
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
 	output.content = data[req.body.bar];
+	// WRITE THE FILE TO A DIFFERENT SERVER. THIS ONE IS AUTH PROTECTED
 	fs.writeFile( 'current.json', JSON.stringify( output , null, 4 ), function( err ) {
 		if(err) { console.log(err); } else { console.log("JSON file saved"); }
 	});
