@@ -1,3 +1,6 @@
+// Globals
+editor_name = '';
+editor_code = '<p></p>';
 
 /**
  * Module dependencies.
@@ -53,18 +56,18 @@ app.get(/\/assets.*/, function(req, res) {
 	res.redirect( 'http://standishsalongoods.com' + req.originalUrl );
 });
 
-// Write selected bar into live JSON file 'current.json'
+// Write selected bar into test JSON file 'test_bar.json'
 app.post('/test', function(req, res) {
 	var output = {};
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
 	output.content = data[req.body.bar];
 	fs.writeFile( 'test_bar.json', JSON.stringify( output , null, 4 ), function( err ) {
-		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+		if(err) { console.log(err); } else { console.log("wrote test_bar.json"); }
 	});
 	res.redirect(303, '/');
 });
 
-// Write selected bar into live JSON file 'current.json'
+// Write selected bar into live JSON file 'data.json'
 app.post('/publish', function(req, res) {
 	var output = {};
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
@@ -72,7 +75,7 @@ app.post('/publish', function(req, res) {
 	// WRITES THE FILE TO A DIFFERENT SERVER, one with SSL for https://
 	// @todo process.env.STANDISH_PUBLIC_JSON_PATH
 	fs.writeFile( '/var/www/hyprtxt.com/public_html/standish/data.json', JSON.stringify( output , null, 4 ), function( err ) {
-		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+		if(err) { console.log(err); } else { console.log("wrote /var/www/hyprtxt.com/public_html/standish/data.json"); }
 	});
 	res.redirect(303, '/');
 });
@@ -82,7 +85,7 @@ app.post('/delete', function(req, res) {
 	var data = JSON.parse( fs.readFileSync('bars.json').toString() );
 	delete data[req.body.bar];
 	fs.writeFile( 'bars.json', JSON.stringify( data , null, 4 ), function( err ) {
-		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+		if(err) { console.log(err); } else { console.log("wrote bars.json"); }
 	});
 	res.redirect(303, '/');
 });
@@ -90,10 +93,19 @@ app.post('/delete', function(req, res) {
 // Write form content into bars.json
 app.post('/', function(req, res) {
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
-	data[req.body.name] = req.body.markup;
+	editor_name = req.body.name
+	editor_code = req.body.markup;
+	data[editor_name] = editor_code;
 	fs.writeFile( 'bars.json', JSON.stringify( data , null, 4 ), function( err ) {
-		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+		if(err) { console.log(err); } else { console.log("wrote bars.json"); }
 	});
+	if( req.body.test === 'true' ) {
+		var output = {};
+		output.content = data[editor_name];
+		fs.writeFile( 'test_bar.json', JSON.stringify( output , null, 4 ), function( err ) {
+			if(err) { console.log(err); } else { console.log("wrote test_bar.json"); }
+		});
+	}
 	res.redirect(303, '/');
 });
 

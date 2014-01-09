@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -12,6 +11,8 @@ exports.index = function(req, res) {
 	res.render('index', { 
 		'title': 'Standish Bar',
 		'bars': data,
-		'production_url': process.env.STANDISH_PUBLIC_JSON_URL
+		'production_url': process.env.STANDISH_PUBLIC_JSON_URL,
+		'editor_name': editor_name,
+		'editor_code': editor_code
 	});
 };
