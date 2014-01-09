@@ -23,10 +23,8 @@
 				<h1><%= title %></h1>
 				<h3>Spot Editor</h3>
 				<form action="/" method="post">
-					Title: <input type="text" value="<%= editor_name %>" name="name" id="name" /> (1 word, no spaces please)<br />
+					Title: <input type="text" value="<%= editor_name %>" name="name" id="name" /> <span class="title_message">(1 word, no spaces please)</span><br />
 					<textarea name="markup" id="markup"><%= editor_code %></textarea><br />
-					<input type="hidden" name="test" id="test" value="false" />
-					<button>Save</button>
 					<button id="save_and_test">Save &amp; Test</button>
 				</form>
 
@@ -86,9 +84,12 @@
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>
-			$('#save_and_test').on('click', function() {
-				// TEST IT
-				$('#test').val('true');
+			$('#save_and_test').on('click', function( e ) {
+				if( $('#name').val() === '' ) {
+					$('.title_message').css({'font-size':'17px'}).animate({'font-size':'16px'}, 200);
+					$('.title_message').text( 'Please give your spot a name! (No spaces please)');
+					e.preventDefault();
+				}
 			});
 			// testing bar at the top
 			$.getJSON( "/test_bar.json", function( data ) {

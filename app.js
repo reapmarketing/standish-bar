@@ -99,13 +99,12 @@ app.post('/', function(req, res) {
 	fs.writeFile( 'bars.json', JSON.stringify( data , null, 4 ), function( err ) {
 		if(err) { console.log(err); } else { console.log("wrote bars.json"); }
 	});
-	if( req.body.test === 'true' ) {
-		var output = {};
-		output.content = data[editor_name];
-		fs.writeFile( 'test_bar.json', JSON.stringify( output , null, 4 ), function( err ) {
-			if(err) { console.log(err); } else { console.log("wrote test_bar.json"); }
-		});
-	}
+	// Test the new bar
+	var output = {};
+	output.content = data[editor_name];
+	fs.writeFile( 'test_bar.json', JSON.stringify( output , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("wrote test_bar.json"); }
+	});
 	res.redirect(303, '/');
 });
 
