@@ -102,7 +102,19 @@
 				$('.hbar_published').html( data.content );
 			});
 			// Hellobar Animation
+			var scrollfixdone = false;
+			$(window).on('scroll', function () {
+				if ( $(window).scrollTop() > 60 ){
+					if( !scrollfixdone ) {
+						$('body').css({'margin-top':'60px'});
+						$("html, body").scrollTop( 120 );
+						console.log( $("body").scrollTop() );
+						scrollfixdone = true;
+					}
+				}
+			});
 			$('.hello').delay(200).animate({'top': '0'});
+			// Load a bar into the editor
 			$('.edit').on('click', function( e ) {
 				var key = $( e.target ).data('key');
 				$('#name').val( key );
