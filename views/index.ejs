@@ -21,15 +21,8 @@
 			<div class="grid_12">
 
 				<h1><%= title %></h1>
-				<h3>Spot Editor</h3>
-				<form action="/" method="post">
-					Title: <input type="text" value="<%= editor_name %>" name="name" id="name" /> <span class="title_message">(1 word, no spaces please)</span><br />
-					<textarea name="markup" id="markup"><%= editor_code %></textarea><br />
-					<button id="save_and_test">Save &amp; Test</button>
-				</form>
 
 				<h3>Published Spot</h3>
-
 				<div class="hello_preview">
 					<div class="container_12">
 						<div class="grid_8 hbar_published"></div>
@@ -39,10 +32,16 @@
 					</div>
 				</div>
 
-				<h3>Available Spots</h3>
+				<h3>Spot Editor</h3>
+				<form action="/" method="post">
+					Title: <input type="text" value="<%= editor_name %>" name="name" id="name" /> <span class="title_message">(1 word, no spaces please)</span><br />
+					<textarea name="markup" id="markup"><%= editor_code %></textarea><br />
+					<button id="save_and_test">Save &amp; Test</button>
+				</form>
 
 				<!-- <textarea><%- JSON.stringify( bars ) %></textarea> -->
 
+				<h3>Available Spots</h3>
 				<% for(var i=0; i<Object.keys( bars ).length; i++) {%>
 					<div class="saved_bar">
 						<h4><%= Object.keys(bars)[i] %></h4>
@@ -103,7 +102,6 @@
 				$('.hbar_published').html( data.content );
 			});
 			// Hellobar Animation
-			$('body').css({'margin-top': '60px'});
 			$('.hello').delay(200).animate({'top': '0'});
 			$('.edit').on('click', function( e ){
 				var key = $( e.target ).data('key');
