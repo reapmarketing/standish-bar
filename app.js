@@ -78,7 +78,7 @@ app.post('/publish', function(req, res) {
 });
 
 // Remove selected bar from bars.json
-app.post('/remove', function(req, res) {
+app.post('/delete', function(req, res) {
 	var data = JSON.parse( fs.readFileSync('bars.json').toString() );
 	delete data[req.body.bar];
 	fs.writeFile( 'bars.json', JSON.stringify( data , null, 4 ), function( err ) {

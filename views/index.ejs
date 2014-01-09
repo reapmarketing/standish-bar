@@ -48,9 +48,9 @@
 						<h4><%= Object.keys(bars)[i] %></h4>
 						<div class="buttons">
 							<button class="edit" data-key="<%= Object.keys(bars)[i] %>">Edit</button>
-							<form action="/remove" method="post" onsubmit="return confirm('This is permanent, Are you sure?');">
+							<form action="/delete" method="post" onsubmit="return confirm('This is permanent, Are you sure?');">
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
-								<button class="formbutton">Remove</button>
+								<button class="formbutton">Delete</button>
 							</form>
 							<form action="/test" method="post">
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
@@ -84,11 +84,12 @@
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>
-			// Hellobar Content
+			// testing bar at the top
 			$.getJSON( "/test_bar.json", function( data ) {
 				console.log( data.content );
 				$('.hbar_content').html( data.content );
 			});
+			// published bar
 			// @todo use the path from process.env
 			$.getJSON( "//hyprtxt.com/standish/data.json", function( data ) {
 				console.log( data.content );
