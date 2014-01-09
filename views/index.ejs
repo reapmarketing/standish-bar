@@ -55,7 +55,7 @@
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
 								<button class="formbutton">Test</button>
 							</form>
-							<form action="/publish" method="post">
+							<form action="/publish" method="post" onsubmit="return confirm('This spot will be published and used on the live site. Are you sure?');">
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
 								<button class="formbutton">Publish</button>
 							</form>
