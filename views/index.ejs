@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<title><%= title %></title>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-		<link rel='stylesheet' href='http://www.standishsalongoods.com/assets/templates/standish/style/main.css' />
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+		<link rel="stylesheet" href="http://www.standishsalongoods.com/assets/templates/standish/style/main.css" />
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" />
 	</head>
 	<body>
@@ -91,23 +91,23 @@
 				}
 			});
 			// testing bar at the top
-			$.getJSON( "/test_bar.json", function( data ) {
+			$.getJSON( '/test_bar.json', function( data ) {
 				console.log( data.content );
 				$('.hbar_content').html( data.content );
 			});
 			// published bar
 			// @todo use the path from process.env
-			$.getJSON( "//hyprtxt.com/standish/data.json", function( data ) {
+			$.getJSON( '//hyprtxt.com/standish/data.json', function( data ) {
 				console.log( data.content );
 				$('.hbar_published').html( data.content );
 			});
 			// Hellobar Animation
 			$('.hello').delay(200).animate({'top': '0'});
-			$('.edit').on('click', function( e ){
+			$('.edit').on('click', function( e ) {
 				var key = $( e.target ).data('key');
-				$( '#name' ).val( key )
-				$( '#markup' ).text( $( '.' + key ).find('.grid_8').html().trim() );
-				$("html, body").animate({ scrollTop: 0 }, "slow");
+				$('#name').val( key );
+				$('#markup').text( $( '.' + key ).find('.grid_8').html().trim() );
+				$('html, body').animate({ scrollTop: 0 }, 'slow');
 			});
 		</script>
 	</body>
