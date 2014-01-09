@@ -5,7 +5,6 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
@@ -16,7 +15,11 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.basicAuth(process.env.STANDISH_USERNAME, process.env.STANDISH_PASSWORD));
+// export STANDISH_USERNAME=exampleuser
+// export STANDISH_PASSWORD=examplepass
+// export STANDISH_PUBLIC_JSON_URL=//:hyprtxt.com/standish/data.json
+// export STANDISH_PUBLIC_JSON_PATH=/var/www/hyprtxt.com/public_html/standish/data.json
+// app.use(express.basicAuth(process.env.STANDISH_USERNAME, process.env.STANDISH_PASSWORD));
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -40,10 +43,9 @@ fs.exists('bars.json', function (exists) {
 });
 
 app.get('/', routes.index);
-// app.get('/users', user.list);
 
-app.get('/current.json', function(req, res) {
-	res.sendfile('current.json');
+app.get('/test_bar.json', function(req, res) {
+	res.sendfile('test_bar.json');
 });
 
 // Redirect request to assets folder to standish live site.
@@ -52,12 +54,24 @@ app.get(/\/assets.*/, function(req, res) {
 });
 
 // Write selected bar into live JSON file 'current.json'
-app.post('/use', function(req, res) {
+app.post('/test', function(req, res) {
 	var output = {};
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
 	output.content = data[req.body.bar];
-	// WRITE THE FILE TO A DIFFERENT SERVER. THIS ONE IS AUTH PROTECTED
-	fs.writeFile( 'current.json', JSON.stringify( output , null, 4 ), function( err ) {
+	fs.writeFile( 'test_bar.json', JSON.stringify( output , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("JSON file saved"); }
+	});
+	res.redirect(303, '/');
+});
+
+// Write selected bar into live JSON file 'current.json'
+app.post('/publish', function(req, res) {
+	var output = {};
+	data = JSON.parse( fs.readFileSync('bars.json').toString() );
+	output.content = data[req.body.bar];
+	// WRITES THE FILE TO A DIFFERENT SERVER, one with SSL for https://
+	// @todo process.env.STANDISH_PUBLIC_JSON_PATH
+	fs.writeFile( '/var/www/hyprtxt.com/public_html/standish/data.json', JSON.stringify( output , null, 4 ), function( err ) {
 		if(err) { console.log(err); } else { console.log("JSON file saved"); }
 	});
 	res.redirect(303, '/');

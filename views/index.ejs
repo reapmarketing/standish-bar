@@ -17,7 +17,6 @@
 			</div>
 		</div>
 
-
 		<div class="container_12">
 			<div class="grid_12">
 
@@ -29,31 +28,50 @@
 					<input type="submit" />
 				</form>
 
+				<h3>Published Spot</h3>
+
+				<div class="hello_preview">
+					<div class="container_12">
+						<div class="grid_8 hbar_published"></div>
+						<div class="grid_3">
+							<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
+						</div>
+					</div>
+				</div>
+
+				<h3>Available Spots</h3>
+
 				<!-- <textarea><%- JSON.stringify( bars ) %></textarea> -->
 
 				<% for(var i=0; i<Object.keys( bars ).length; i++) {%>
-					<h4><%= Object.keys(bars)[i] %></h4>
-					<div class="buttons">
-						<button class="edit" data-key="<%= Object.keys(bars)[i] %>">Edit</button>
-						<form action="/remove" method="post" onsubmit="return confirm('Are you sure?');">
-							<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
-							<button class="remove">Remove</button>
-						</form>
-						<form action="/use" method="post">
-							<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
-							<button class="use">Use</button>
-						</form>
-					</div>
+					<div class="saved_bar">
+						<h4><%= Object.keys(bars)[i] %></h4>
+						<div class="buttons">
+							<button class="edit" data-key="<%= Object.keys(bars)[i] %>">Edit</button>
+							<form action="/remove" method="post" onsubmit="return confirm('This is permanent, Are you sure?');">
+								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
+								<button class="formbutton">Remove</button>
+							</form>
+							<form action="/test" method="post">
+								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
+								<button class="formbutton">Test</button>
+							</form>
+							<form action="/publish" method="post">
+								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
+								<button class="formbutton">Publish</button>
+							</form>
+						</div>
 
-					<div class="clearboth"></div>
+						<div class="clearboth"></div>
 
-					<div class="hello_preview <%= Object.keys(bars)[i] %>">
-						<div class="container_12">
-							<div class="grid_8">
-								<%- bars[Object.keys(bars)[i]] %>
-							</div>
-							<div class="grid_3">
-								<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
+						<div class="hello_preview <%= Object.keys(bars)[i] %>">
+							<div class="container_12">
+								<div class="grid_8">
+									<%- bars[Object.keys(bars)[i]] %>
+								</div>
+								<div class="grid_3">
+									<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -67,10 +85,14 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>
 			// Hellobar Content
-			// $.getJSON( "//hyprtxt.com/standish/data.json", function( data ) {
-			$.getJSON( "/current.json", function( data ) {
+			$.getJSON( "/test_bar.json", function( data ) {
 				console.log( data.content );
 				$('.hbar_content').html( data.content );
+			});
+			// @todo use the path from process.env
+			$.getJSON( "//hyprtxt.com/standish/data.json", function( data ) {
+				console.log( data.content );
+				$('.hbar_published').html( data.content );
 			});
 			// Hellobar Animation
 			$('body').css({'margin-top': '60px'});
