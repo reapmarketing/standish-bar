@@ -22,7 +22,7 @@
 
 				<h1><%= title %></h1>
 
-				<h3>Published Spot</h3>
+				<h3>Published Default Spot</h3>
 				<div class="hello_preview">
 					<div class="container_12">
 						<div class="grid_8 hbar_published"></div>
@@ -55,9 +55,9 @@
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
 								<button class="formbutton">Test</button>
 							</form>
-							<form action="/publish" method="post" onsubmit="return confirm('This spot will be published and used on the live site. Are you sure?');">
+							<form action="/publish_default" method="post" onsubmit="return confirm('This spot will be published and used on the live site. Are you sure?');">
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
-								<button class="formbutton">Publish</button>
+								<button class="formbutton">Publish as Default</button>
 							</form>
 						</div>
 
@@ -97,9 +97,11 @@
 			});
 			// published bar
 			// @todo use the path from process.env.STANDISH_PUBLIC_JSON_URL
-			$.getJSON( <%= production_url %>, function( data ) {
-				console.log( data.content );
-				$('.hbar_published').html( data.content );
+			$.getJSON( '<%= production_url %>', function( data ) {
+				// console.log( data.content );
+				// $('.hbar_published').html( data.content );
+				console.log( data['default'] );
+				$('.hbar_published').html( data['default'] );
 			});
 			// Hellobar Animation
 			var scrollfixdone = false;

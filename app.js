@@ -22,7 +22,7 @@ app.set('view engine', 'ejs');
 // export STANDISH_PASSWORD=examplepass
 // export STANDISH_PUBLIC_JSON_URL=//:hyprtxt.com/standish/data.json
 // export STANDISH_PUBLIC_JSON_PATH=/var/www/hyprtxt.com/public_html/standish/data.json
-// app.use(express.basicAuth(process.env.STANDISH_USERNAME, process.env.STANDISH_PASSWORD));
+app.use(express.basicAuth(process.env.STANDISH_USERNAME, process.env.STANDISH_PASSWORD));
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -67,15 +67,15 @@ app.post('/test', function(req, res) {
 	res.redirect(303, '/');
 });
 
-// Write selected bar into live JSON file 'data.json'
-app.post('/publish', function(req, res) {
+// Write selected bar into live JSON file as Default
+app.post('/publish_default', function(req, res) {
 	var output = {};
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
-	output.content = data[req.body.bar];
+	output['default'] = data[req.body.bar];
 	// WRITES THE FILE TO A DIFFERENT SERVER, one with SSL for https://
 	// @todo 
 	fs.writeFile( process.env.STANDISH_PUBLIC_JSON_PATH, JSON.stringify( output , null, 4 ), function( err ) {
-		if(err) { console.log(err); } else { console.log("wrote /var/www/hyprtxt.com/public_html/standish/data.json"); }
+		if(err) { console.log(err); } else { console.log("wrote "+process.env.STANDISH_PUBLIC_JSON_PATH); }
 	});
 	res.redirect(303, '/');
 });
