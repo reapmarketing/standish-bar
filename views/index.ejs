@@ -96,8 +96,8 @@
 				$('.hbar_content').html( data.content );
 			});
 			// published bar
-			// @todo use the path from process.env
-			$.getJSON( '//hyprtxt.com/standish/data.json', function( data ) {
+			// @todo use the path from process.env.STANDISH_PUBLIC_JSON_URL
+			$.getJSON( <%= production_url %>, function( data ) {
 				console.log( data.content );
 				$('.hbar_published').html( data.content );
 			});

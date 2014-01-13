@@ -73,8 +73,8 @@ app.post('/publish', function(req, res) {
 	data = JSON.parse( fs.readFileSync('bars.json').toString() );
 	output.content = data[req.body.bar];
 	// WRITES THE FILE TO A DIFFERENT SERVER, one with SSL for https://
-	// @todo process.env.STANDISH_PUBLIC_JSON_PATH
-	fs.writeFile( '/var/www/hyprtxt.com/public_html/standish/data.json', JSON.stringify( output , null, 4 ), function( err ) {
+	// @todo 
+	fs.writeFile( process.env.STANDISH_PUBLIC_JSON_PATH, JSON.stringify( output , null, 4 ), function( err ) {
 		if(err) { console.log(err); } else { console.log("wrote /var/www/hyprtxt.com/public_html/standish/data.json"); }
 	});
 	res.redirect(303, '/');
