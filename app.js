@@ -80,6 +80,29 @@ app.post('/publish_default', function(req, res) {
 	res.redirect(303, '/');
 });
 
+// Write selected bar into live JSON file
+app.post('/publish', function(req, res) {
+	data = JSON.parse( fs.readFileSync('bars.json').toString() );
+	published = JSON.parse( fs.readFileSync(process.env.STANDISH_PUBLIC_JSON_PATH).toString() );
+	published[req.body.bar] = data[req.body.bar];
+	// WRITES THE FILE TO A DIFFERENT SERVER, one with SSL for https://
+	fs.writeFile( process.env.STANDISH_PUBLIC_JSON_PATH, JSON.stringify( published , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("wrote "+process.env.STANDISH_PUBLIC_JSON_PATH); }
+	});
+	res.redirect(303, '/');
+});
+
+// Remove selected bar from live JSON file
+app.post('/unpublish', function(req, res) {
+	published = JSON.parse( fs.readFileSync(process.env.STANDISH_PUBLIC_JSON_PATH).toString() );
+	delete published[req.body.bar];
+	// WRITES THE FILE TO A DIFFERENT SERVER, one with SSL for https://
+	fs.writeFile( process.env.STANDISH_PUBLIC_JSON_PATH, JSON.stringify( published , null, 4 ), function( err ) {
+		if(err) { console.log(err); } else { console.log("wrote "+process.env.STANDISH_PUBLIC_JSON_PATH); }
+	});
+	res.redirect(303, '/');
+});
+
 // Remove selected bar from bars.json
 app.post('/delete', function(req, res) {
 	var data = JSON.parse( fs.readFileSync('bars.json').toString() );

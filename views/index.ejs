@@ -22,15 +22,42 @@
 
 				<h1><%= title %></h1>
 
-				<h3>Published Default Spot</h3>
-				<div class="hello_preview">
+				<h3>Published Spots</h3>
+<!-- 				<div class="hello_preview">
 					<div class="container_12">
 						<div class="grid_8 hbar_published"></div>
 						<div class="grid_3">
 							<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
 						</div>
 					</div>
-				</div>
+				</div> -->
+
+				<% for(var i=0; i<Object.keys( published_bars ).length; i++) {%>
+					<div class="saved_bar">
+						<h4><%= Object.keys(published_bars)[i] %></h4>
+						<% if( Object.keys(published_bars)[i] !== 'default' ) { %>
+						<div class="buttons">
+							<form action="/unpublish" method="post" onsubmit="return confirm('This spot will un-published and no longer available for use on the live site. Please make sure you have removed any override tags from the site. Are you sure?');">
+								<input type="hidden" name="bar" value="<%= Object.keys(published_bars)[i] %>" />
+								<button class="formbutton">Un-Publish</button>
+							</form>
+						</div>
+						<% } %>
+
+						<div class="clearboth"></div>
+
+						<div class="hello_preview <%= Object.keys(published_bars)[i] %>">
+							<div class="container_12">
+								<div class="grid_8">
+									<%- published_bars[Object.keys(published_bars)[i]] %>
+								</div>
+								<div class="grid_3">
+									<p class="right-hello"><span class="coral-text">Need Help?</span> Call <span class="bold">888.271.8434</span></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% } %>
 
 				<h3>Spot Editor</h3>
 				<form action="/" method="post">
@@ -55,9 +82,13 @@
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
 								<button class="formbutton">Test</button>
 							</form>
-							<form action="/publish_default" method="post" onsubmit="return confirm('This spot will be published and used on the live site. Are you sure?');">
+							<form action="/publish_default" method="post" onsubmit="return confirm('This spot will be published and used as the default bar on the live site. Are you sure?');">
 								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
 								<button class="formbutton">Publish as Default</button>
+							</form>
+							<form action="/publish" method="post" onsubmit="return confirm('This spot will be published and available for use on the live site. Are you sure?');">
+								<input type="hidden" name="bar" value="<%= Object.keys(bars)[i] %>" />
+								<button class="formbutton">Publish</button>
 							</form>
 						</div>
 
