@@ -2,9 +2,19 @@
 
 This application is used to manage the promotional 'Hello Bar' content on StandishSalonGoods.com
 
-To use a custom bar on a page, include the code below. If the bar name is incorrect, the system will revert to the default bar. Only the first occurance of this tag on a given page will be detected by the system.
+At the very top of the page, the application will display a test bar. This is not shown on the live site and is there to help you test and develop new bar content. When you save a new bar it will automaticaly be tested in this location when you save your content.
 
-	<span class="custom_bar" data-bar="OverrideBarName"></span>
+Next the application displays "Published Spots". These are available for use on the site using the Custom Bar Tag method explained below. If tag is not present on the page, or if the bar the tag refers to is not published, the system will use the 'default' bar, which is always shown at the top of this list.
+
+The "Spot Editor" allows you to edit and update, or even copy existing bars. You can duplicate an exiting bar by loading it into the editor with the 'edit' button, changing the title, and saving. Bars are automaticaly loaded for testing when they are saved.
+
+"Available Spots" lists all the saved content in the app, including the test bar, published spots and unused spots. The buttons next to the title allow you to manage, edit, delete and publish spots to the site.
+
+### Custom Bar Tag
+
+To use a custom bar on a page, include the code below somewhere on the page. This will usually be in the description field of a product or category. This code will not display anything on the page. If the bar title is incorrect, the system will revert to the default bar. Only the first occurance of this tag on a given page will be detected by the system.
+
+	<span class="custom_bar" data-bar="OverrideBarTitle"></span>
 
 ## Developers
 
