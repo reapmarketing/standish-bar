@@ -26,7 +26,7 @@ You will need to set the following ENV vars (in your .bashrc or .bash_profile) t
 	export STANDISH_PUBLIC_JSON_URL=/test_publish.json
 	export STANDISH_PUBLIC_JSON_PATH=public/test_publish.json
 
-If you are setting this app up in a new production enviornment the PUBLIC_JSON_URL should be a intenet accessable 'real' URL, preferably on a server with SSL (https) support. The production envoirnment assumes that you are using a static webserver (Nginx or Apache) on the same server where the Node app is hosted. The enviromnet must allow the node process to read a write files.
+If you are setting this app up in a new production enviornment the PUBLIC_JSON_URL should be a intenet accessable 'real' URL, preferably on a server with SSL (https) support. The production envoirnment assumes that you are using a static webserver (Nginx or Apache) on the same server where the Node app is hosted. The host envoirnment must allow the node process to read and write files. (No Heroku)
 
 Here's the code that pulls the data from the app on the Store site. (frame.html)
 
