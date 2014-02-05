@@ -18,11 +18,12 @@ To use a custom bar on a page, include the code below somewhere on the page. Thi
 
 ## Developers
 
-You will need to set the following ENV vars (in your .bashrc or .bash_profile) to make the application work. The following is a set of defaults that should work well for local development work on this project.
+You will need to set the following ENV vars (in your startup script, .bashrc, or .bash_profile) to make the application work. You will need to get OAUTH2 authentication API keys from Google to get this app running. You can register for them here: [https://cloud.google.com/console](https://cloud.google.com/console)
 
 	# Standish Hellobar app vars
-	export STANDISH_USERNAME=user
-	export STANDISH_PASSWORD=pass
+	export GOOGLE_CONSUMER_KEY=GetThisFromGoogle
+	export GOOGLE_CONSUMER_SECRET=GetThisFromGoogle
+	export GOOGLE_CALLBACK_URL=http://example.org/auth/google/callback
 	export STANDISH_PUBLIC_JSON_URL=/test_publish.json
 	export STANDISH_PUBLIC_JSON_PATH=public/test_publish.json
 
